@@ -29,6 +29,20 @@ Each segment is shown only when its data is available, so the line stays unclutt
 
 ## Installation
 
+### Quick install
+
+Download the script straight into your `.claude` folder (PowerShell):
+
+```powershell
+Invoke-WebRequest -UseBasicParsing `
+  -Uri "https://raw.githubusercontent.com/zyklon888/clean-claude-statusline/main/statusline-command.ps1" `
+  -OutFile "$HOME\.claude\statusline-command.ps1"
+```
+
+Then add the `statusLine` block from step 2 below to your `settings.json` and restart Claude Code.
+
+### Manual install
+
 1. **Download** `statusline-command.ps1` from this repo and save it somewhere stable, e.g.:
 
    ```
