@@ -1,0 +1,11 @@
+# Editor / OS cruft
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+*.swp
+
+# Local Claude Code settings — never publish these
+settings.json
+settings.local.json
+.claude/
