@@ -12,17 +12,17 @@ try { $j = $raw | ConvertFrom-Json } catch { exit 0 }
 
 $parts = @()
 
-# 1) directory (workspace.current_dir, fallback cwd), ~-abbreviated, forward slashes
+# 1) directory (workspace.current_dir, fallback cwd): show only the last two path segments
 $dir = $null
 if ($j.workspace -and $j.workspace.current_dir) { $dir = $j.workspace.current_dir }
 elseif ($j.cwd) { $dir = $j.cwd }
 if ($dir) {
-    $dirN  = ($dir -replace '\\','/')
-    $homeN = ($HOME -replace '\\','/')
-    if ($homeN -and $dirN.ToLower().StartsWith($homeN.ToLower())) {
-        $dirN = '~' + $dirN.Substring($homeN.Length)
-    }
-    $parts += $dirN
+    $dirN = ($dir -replace '\\','/').TrimEnd('/')
+    $segs = $dirN.Split('/') | Where-Object { $_ -ne '' }
+    if ($segs.Count -ge 2) { $tail = ($segs[-2..-1] -join '/') }
+    elseif ($segs.Count -eq 1) { $tail = $segs[0] }
+    else { $tail = $dirN }   # root path (e.g. "C:") has no segments after split
+    $parts += $tail
 }
 
 # 2) git branch + dirty marker (only if inside a repo)
